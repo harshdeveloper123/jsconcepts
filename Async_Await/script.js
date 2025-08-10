@@ -101,69 +101,168 @@
 
 //for resolving the issue of callback hell there are promises. It has two parts resolve or reject. lets see below
 
-let is_shop_open = false;
-//pass two parameters  time and work and pass the output based upon two paramenters
-let order = (time,work)=>{
+// let is_shop_open = false;
+// //pass two parameters  time and work and pass the output based upon two paramenters
+// let order = (time,work)=>{
+//     return new Promise((resolve,reject)=>{
+//           if(is_shop_open){
+
+//             setTimeout(()=>{
+//                 //work is getting done here
+//                 resolve(work())
+//             },time)
+            
+//           } else{
+//             reject(console.log('our shop is closed'));
+//             ;
+            
+//           }
+
+//         })
+// }
+
+
+// //now so far we use promises with the keywords methods then and finally and also with the catch
+// order(2000,()=>console.log(`${stocks.Fruits[0]} was selected`))
+// .then(()=>{
+//     return order(1000,()=>{
+//          console.log('production has started');
+         
+//     })
+// })
+// .then(()=>{
+//     return order(1000,()=>{
+//          console.log('Fruits has been chopped');
+         
+//     })
+// })
+// .then(()=>{
+//     return order(1000,()=>{
+//          console.log(`${stocks.liquid[0]} and ${stocks.liquid[1]} added`);
+         
+//     })
+// })
+// .then(()=>{
+//     return order(2000,()=>{
+//          console.log('start the machine');
+         
+//     })
+// })
+// .then(()=>{
+//     return order(3000,()=>{
+//          console.log(`ice cream placed on ${stocks.Toppings[0]} as Toppings`);
+         
+//     })
+// })
+
+// .then(()=>{
+//     return order(2000,()=>{
+//          console.log(`ice cream served`);
+         
+//     })
+
+// })  
+// //iff any error occurs
+// .catch(()=>{
+//     console.log("customer left");
+    
+// })
+// //runs the code anyways and do the final job and finish it
+// .finally(()=>{
+//     console.log("end of the day");
+    
+// })
+
+
+
+// now in next we saw about async await 
+//with this we saw the try and catch keyword also a finally keyword.
+//to make regular function which always retrurn a promise just type the async keyword in front of the function name.
+//so  below a function which return a promise in which selection of topping is shwn 
+// function topping_choice(){
+//     return new Promise((resolve,reject)=>{
+//          setTimeout(()=>{
+//             resolve(console.log("What Toppings would you love?"));
+//          },3000)
+//     })
+// }
+
+
+// //below you see the async await function but as now just focus on await keyword
+// async function kitchen(){
+//     console.log("Customer entered");
+//     console.log("ordered regular icecream");
+//     console.log("no toppings selection");
+
+//     //when we use await keyword it not means js engine or js actually waits for resolving. no, definitely not. so then what it means? it means the function execution is suspended till resolving. so if i print on the console all the statements above await statement is printed imeediately but the statements after await or bundeled inside the function is executed after resolving. 
+
+//     await topping_choice();  
+//     console.log("another customer entered");
+//     console.log("one customer paid bill");
+//     console.log("Customer use a voucher and get 50%off above order of 200");
+    
+    
+    
+    
+// }
+
+// kitchen();
+
+
+// console.log("clean the tables ");
+// console.log("clean the windows ");
+// console.log("clean the floor ");
+
+
+
+//now lets back to ice cream make example use the async await.
+let shop_is_open = true;
+function time(ms){
     return new Promise((resolve,reject)=>{
-          if(is_shop_open){
-
-            setTimeout(()=>{
-                //work is getting done here
-                resolve(work())
-            },time)
-            
-          } else{
-            reject('our shop is closed');
-            
-          }
-
-        })
+        if(shop_is_open){
+            setTimeout(resolve,ms);
+        }else{
+            reject(console.log("shop is closed"));
+        }
+    })
 }
 
-order(2000,()=>console.log(`${stocks.Fruits[0]} was selected`))
-.then(()=>{
-    return order(1000,()=>{
-         console.log('production has started');
-         
-    })
-})
-.then(()=>{
-    return order(1000,()=>{
-         console.log('Fruits has been chopped');
-         
-    })
-})
-.then(()=>{
-    return order(1000,()=>{
-         console.log(`${stocks.liquid[0]} and ${stocks.liquid[1]} added`);
-         
-    })
-})
-.then(()=>{
-    return order(2000,()=>{
-         console.log('start the machine');
-         
-    })
-})
-.then(()=>{
-    return order(3000,()=>{
-         console.log(`ice cream placed on ${stocks.Toppings[0]} as Toppings`);
-         
-    })
-})
+async function kitchen(){
+    try{
+        //time taken to resolve the promise
+        await time(2000)
+        console.log(`${stocks.Fruits[0]} was selected`);
 
-.then(()=>{
-    return order(2000,()=>{
-         console.log(`ice cream served`);
-         
-    })
+        await time(1000)
+        console.log("production started");
+        
+        await time(2000)
+        console.log('fruit has been chopped');
 
-})  
-.catch(()=>{
-    console.log("customer left");
-    
-})
-.finally(()=>{
-    console.log("end of the day");
-    
-})
+        await time(1000)
+        console.log((`${stocks.liquid[0]} and ${stocks.liquid[1]} added`));
+
+        await time(1000)
+        console.log('start the machine');
+
+        await time(2000)
+        console.log(`ice cream placed on the ${stocks.Holder[1]}`);
+        
+        await time(3000)
+        console.log(`${stocks.Toppings[0]} as toppings`);
+
+        await time(2000)
+        console.log('serve the ice cream');
+            
+    }
+    catch(error){
+        console.log('Customer left',error);
+        
+    }
+    finally{
+        console.log("end of the day. bye bye");
+        
+    }
+}
+
+kitchen()
